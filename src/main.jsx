@@ -5,15 +5,14 @@ import App from './App'
 import './index.css'
 
 /**
- * BrowserRouter for `npm run dev` / normal hosting.
- * HashRouter when building the self-contained single-file bundle
- * (VITE_HASH_ROUTER=1), because a sandboxed iframe with an opaque origin
- * blocks history.pushState — hash routing needs no History API at all.
+ * Use BrowserRouter during local development.
+ * Use HashRouter in production/GitHub Pages so
+ * client-side routes work correctly on static hosting.
  */
-const Router = import.meta.env.VITE_HASH_ROUTER === '1' ? HashRouter : BrowserRouter
+const Router = import.meta.env.PROD ? HashRouter : BrowserRouter
 
-// Build marker so a bundle's router mode can be verified by inspection.
-globalThis.__SKILLSYNC_ROUTER__ = import.meta.env.VITE_HASH_ROUTER === '1' ? 'hash' : 'browser'
+// Build marker so the router mode can be verified if needed.
+globalThis.__SKILLSYNC_ROUTER__ = import.meta.env.PROD ? 'hash' : 'browser'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
